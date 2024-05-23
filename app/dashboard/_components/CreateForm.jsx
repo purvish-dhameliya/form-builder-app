@@ -16,16 +16,18 @@ import { useUser } from "@clerk/nextjs";
 import { JsonForms } from "@/config/schema";
 import { db } from "@/config";
 import { useRouter } from "next/navigation";
+import { LoaderCircle } from "lucide-react";
 
 const PROMPT =
-  ", On the basis of description please give me form in json format with form title, form subheading, form field, form name, placeholder name, and form label in json format";
+  ", On the basis of description create JSON form  with FormTitle, FormHeading, along with FieldName, FieldTitle, FieldType, Placeholder, label, required fields in JSON format";
 
 const CreateForm = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
-  const routes = useRouter();
+  const router = useRouter();
+
   const onCreateForm = async () => {
     console.log("user textarea::", userInput);
     setLoading(true);
@@ -42,8 +44,9 @@ const CreateForm = () => {
           createdAt: moment().format("DD/MM/yyyy")
         })
         .returning({ id: JsonForms.id });
-
-      console.log("jsonform new id::", resp[0].id);
+      if (resp[0].id) {
+        router.push("/edit-style/" + resp[0].id);
+      }
       setLoading(false);
     }
     setLoading(false);
@@ -63,14 +66,18 @@ const CreateForm = () => {
                 value={userInput}
               />
               <div className="flex gap-2 my-3 justify-end">
-                <Button onClick={() => onCreateForm()} disabled={loading}>
-                  Create
-                </Button>
                 <Button
                   variant="destructive"
                   onClick={() => setOpenDialog(false)}
                 >
                   Cancel
+                </Button>
+                <Button onClick={() => onCreateForm()} disabled={loading}>
+                  {loading ? (
+                    <LoaderCircle className="animate-spin" />
+                  ) : (
+                    "Create"
+                  )}
                 </Button>
               </div>
             </DialogDescription>
