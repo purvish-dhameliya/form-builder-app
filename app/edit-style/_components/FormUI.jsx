@@ -6,12 +6,14 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
+import EditField from "./EditField";
 
-const FormUI = ({ jsonForms }) => {
+const FormUI = ({ jsonForms, onFieldUpdate }) => {
   console.log("jsonForms:", jsonForms);
 
   return (
@@ -20,10 +22,10 @@ const FormUI = ({ jsonForms }) => {
       <h2 className="text-sm text-gray-400 text-center">
         {jsonForms?.FormHeading}
       </h2>
-      {jsonForms?.Fields?.map((field) => (
-        <div key={field?.FieldName}>
-          {field?.FieldType === "select" ? (
-            <div className="my-3">
+      {jsonForms?.Fields?.map((field, index) => (
+        <div key={field?.FieldName} className="flex items-center gap-2">
+          {field?.FieldType === "dropdown" ? (
+            <div className="my-3 w-full">
               <Label className="text-xs text-gray-500">
                 {field?.FieldTitle}
               </Label>
@@ -32,7 +34,7 @@ const FormUI = ({ jsonForms }) => {
                   <SelectValue placeholder={field?.Placeholder} />
                 </SelectTrigger>
                 <SelectContent>
-                  {field?.options?.map((item, index) => (
+                  {field.options?.map((item, index) => (
                     <SelectItem value={item} key={index}>
                       {item}
                     </SelectItem>
@@ -41,7 +43,7 @@ const FormUI = ({ jsonForms }) => {
               </Select>
             </div>
           ) : field?.FieldType === "radio" ? (
-            <div className="my-3">
+            <div className="my-3 w-full">
               <Label className="text-xs text-gray-500">
                 {field?.FieldTitle}
               </Label>
@@ -54,8 +56,31 @@ const FormUI = ({ jsonForms }) => {
                 ))}
               </RadioGroup>
             </div>
+          ) : field?.FieldType === "checkbox" ? (
+            <div className="my-3 w-full">
+              <Label className="text-xs text-gray-500 mb-2">
+                {field?.FieldTitle}
+              </Label>
+              {field?.options ? (
+                field?.options?.map((item, index) => (
+                  <div key={index} className="flex gap-2 items-center">
+                    <Checkbox id={`checkbox-${field.FieldName}-${index}`} />
+                    <Label htmlFor={`checkbox-${field.FieldName}-${index}`}>
+                      {item}
+                    </Label>
+                  </div>
+                ))
+              ) : (
+                <div className="flex gap-2 items-center">
+                  <Checkbox id={`checkbox-${field.FieldName}`} />
+                  <Label htmlFor={`checkbox-${field.FieldName}`}>
+                    {field.FieldTitle}
+                  </Label>
+                </div>
+              )}
+            </div>
           ) : field?.FieldType === "textarea" ? (
-            <div className="my-3">
+            <div className="my-3 w-full">
               <Label className="block text-xs text-gray-500 mb-2">
                 {field?.FieldTitle}
               </Label>
@@ -67,7 +92,7 @@ const FormUI = ({ jsonForms }) => {
               />
             </div>
           ) : (
-            <div className="my-3">
+            <div className="my-3 w-full">
               <Label className="block text-xs text-gray-500 mb-2">
                 {field?.FieldTitle}
               </Label>
@@ -80,6 +105,12 @@ const FormUI = ({ jsonForms }) => {
               />
             </div>
           )}
+          <div>
+            <EditField
+              defaultValue={field}
+              onUpdate={(value) => onFieldUpdate(value)}
+            />
+          </div>
         </div>
       ))}
     </div>
