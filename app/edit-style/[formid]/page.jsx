@@ -9,6 +9,7 @@ import { and, eq } from "drizzle-orm";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import FormUI from "../_components/FormUI";
+import Controller from "../_components/Controller";
 
 const EditForm = ({ params }) => {
   const { user } = useUser();
@@ -16,6 +17,7 @@ const EditForm = ({ params }) => {
   const [jsonFormData, setJsonFormData] = useState(null);
   const [updateTrigger, setUpdateTrigger] = useState();
   const [record, setRecord] = useState(null);
+  const [selectedTheme, setSelectedTheme] = useState("light");
 
   useEffect(() => {
     if (user) {
@@ -106,13 +108,16 @@ const EditForm = ({ params }) => {
         <ArrowLeft /> Back
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-5 border rounded-lg shadow-md">Controllers</div>
+        <div className="p-5 border rounded-lg shadow-md">
+          <Controller />
+        </div>
         <div className="col-span-2 border rounded-lg p-4  justify-center flex">
           {jsonFormData ? (
             <FormUI
               jsonForms={jsonFormData}
               onFieldUpdate={onFieldUpdate}
               deleteField={(index) => deleteField(index)}
+              selectedTheme={selectedTheme}
             />
           ) : (
             <LoaderCircle className="animate-spin" />

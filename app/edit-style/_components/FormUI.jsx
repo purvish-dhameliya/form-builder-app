@@ -13,9 +13,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import EditField from "./EditField";
 
-const FormUI = ({ jsonForms, onFieldUpdate, deleteField }) => {
+const FormUI = ({ jsonForms, onFieldUpdate, deleteField, selectedTheme }) => {
   return (
-    <div className="border p-5 rounded-sm md:w-[800px]">
+    <div
+      className="border p-5 rounded-sm md:w-[600px]"
+      data-theme={selectedTheme}
+    >
       <h2 className="font-bold text-center text-2xl">{jsonForms?.formTitle}</h2>
       <h2 className="text-sm text-gray-400 text-center">
         {jsonForms?.FormHeading}
