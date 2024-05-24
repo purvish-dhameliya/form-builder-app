@@ -6,7 +6,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
 } from "@/components/ui/dialog";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
 
 const PROMPT =
-  ", On the basis of description create JSON form  with FormTitle, FormHeading, along with FieldName, FieldTitle, FieldType, Placeholder, label, required fields in JSON format";
+  ", On the basis of the description, please generate a form in JSON format with the following consistent keys: 'formTitle', 'FormHeading', 'Fields' (array of objects with keys 'FieldName', 'FieldTitle', 'FieldType', 'Placeholder', 'options' (if applicable), and 'Required'). Ensure all keys are exactly as specified.";
 
 const CreateForm = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -29,28 +28,36 @@ const CreateForm = () => {
   const router = useRouter();
 
   const onCreateForm = async () => {
-    console.log("user textarea::", userInput);
+    console.log("User textarea input:", userInput);
     setLoading(true);
-    const result = await AiChatSession.sendMessage(
-      "Description:" + userInput + PROMPT
-    );
-    console.log("user textarea ai::", result.response.text());
-    if (result.response.text()) {
-      const resp = await db
-        .insert(JsonForms)
-        .values({
-          jsonform: result.response.text(),
-          createdBy: user?.primaryEmailAddress?.emailAddress,
-          createdAt: moment().format("DD/MM/yyyy")
-        })
-        .returning({ id: JsonForms.id });
-      if (resp[0].id) {
-        router.push("/edit-style/" + resp[0].id);
+    try {
+      const result = await AiChatSession.sendMessage(
+        "Description: " + userInput + PROMPT
+      );
+      const jsonResponse = await result.response.text();
+      console.log("AI response:", jsonResponse);
+
+      if (jsonResponse) {
+        const resp = await db
+          .insert(JsonForms)
+          .values({
+            jsonform: jsonResponse,
+            createdBy: user?.primaryEmailAddress?.emailAddress,
+            createdAt: moment().format("DD/MM/yyyy"),
+          })
+          .returning({ id: JsonForms.id });
+
+        if (resp[0].id) {
+          router.push("/edit-style/" + resp[0].id);
+        }
       }
+    } catch (error) {
+      console.error("Error creating form:", error);
+    } finally {
       setLoading(false);
     }
-    setLoading(false);
   };
+
   return (
     <div>
       <Button onClick={() => setOpenDialog(true)}>+ Create Form</Button>
@@ -72,7 +79,7 @@ const CreateForm = () => {
                 >
                   Cancel
                 </Button>
-                <Button onClick={() => onCreateForm()} disabled={loading}>
+                <Button onClick={onCreateForm} disabled={loading}>
                   {loading ? (
                     <LoaderCircle className="animate-spin" />
                   ) : (
