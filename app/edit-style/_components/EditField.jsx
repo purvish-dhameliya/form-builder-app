@@ -1,4 +1,6 @@
 "use client";
+import React, { useState } from "react";
+import { Edit, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -6,12 +8,22 @@ import {
   PopoverContent,
   PopoverTrigger
 } from "@/components/ui/popover";
-import { Edit, Trash } from "lucide-react";
-import React, { useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 
-const EditField = ({ defaultValue, onUpdate }) => {
+const EditField = ({ defaultValue, onUpdate, deleteField }) => {
   const [label, setLabel] = useState(defaultValue.FieldTitle);
   const [placeholder, setPlaceholder] = useState(defaultValue.Placeholder);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const handleUpdate = () => {
     onUpdate({
@@ -59,7 +71,26 @@ const EditField = ({ defaultValue, onUpdate }) => {
           </Button>
         </PopoverContent>
       </Popover>
-      <Trash className="h-4 w-4 text-red-500" />
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogTrigger asChild>
+          <Trash className="h-4 w-4 text-red-500 cursor-pointer" />
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogDescription>
+            Are you sure you want to delete this field?
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => deleteField()}>
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

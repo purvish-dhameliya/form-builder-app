@@ -1,10 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { ArrowLeft, LoaderCircle } from "lucide-react";
+import { toast } from "sonner";
+import moment from "moment";
 import { db } from "@/config";
 import { JsonForms } from "@/config/schema";
 import { and, eq } from "drizzle-orm";
 import { useUser } from "@clerk/nextjs";
-import { ArrowLeft, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import FormUI from "../_components/FormUI";
 
@@ -13,6 +15,7 @@ const EditForm = ({ params }) => {
   const router = useRouter();
   const [jsonFormData, setJsonFormData] = useState(null);
   const [updateTrigger, setUpdateTrigger] = useState();
+  const [record, setRecord] = useState(null);
 
   useEffect(() => {
     if (user) {
@@ -27,14 +30,14 @@ const EditForm = ({ params }) => {
         .from(JsonForms)
         .where(
           and(
-            eq(JsonForms.id, params.formid),
-            eq(JsonForms.createdBy, user?.primaryEmailAddress?.emailAddress)
+            eq(JsonForms?.id, params?.formid),
+            eq(JsonForms?.createdBy, user?.primaryEmailAddress?.emailAddress)
           )
         );
 
       if (result.length > 0) {
-        const parsedData = JSON.parse(result[0].jsonform);
-        console.log("result:", parsedData);
+        const parsedData = JSON.parse(result[0]?.jsonform);
+        setRecord(result[0]);
         setJsonFormData(parsedData);
       }
     } catch (error) {
@@ -43,10 +46,26 @@ const EditForm = ({ params }) => {
   };
 
   useEffect(() => {
-    setJsonFormData(jsonFormData);
-  }, [jsonFormData, updateTrigger]);
+    if (updateTrigger) {
+      updateJsonFormInDb();
+    }
+  }, [updateTrigger]);
 
-  const onFieldUpdate = (value, index) => {
+  const updateJsonFormInDb = async () => {
+    const result = await db
+      .update(JsonForms)
+      .set({
+        jsonform: JSON.stringify(jsonFormData)
+      })
+      .where(
+        and(
+          eq(JsonForms.id, record.id),
+          eq(JsonForms.createdBy, user?.primaryEmailAddress?.emailAddress)
+        )
+      );
+  };
+
+  const onFieldUpdate = (value) => {
     const updatedJsonFormData = { ...jsonFormData };
     const fieldToUpdate = updatedJsonFormData.Fields.find(
       (field) => field.FieldName === value.id
@@ -54,12 +73,28 @@ const EditForm = ({ params }) => {
     if (fieldToUpdate) {
       fieldToUpdate.FieldTitle = value.label;
       fieldToUpdate.Placeholder = value.placeholder;
-      console.log(updatedJsonFormData);
       setJsonFormData(updatedJsonFormData);
+      toast.success("Field Is Updated!!", {
+        description: moment().format("DD/MM/yyyy"),
+        position: "top-center",
+        className: "h-32 w-64 bg-dark-500 text-white text-center"
+      });
       setUpdateTrigger(Date.now());
-    } else {
-      console.error(`Field with id ${value.id} not found`);
     }
+  };
+
+  const deleteField = (indexRemove) => {
+    const updatedFields = jsonFormData?.Fields?.filter(
+      (item, index) => index !== indexRemove
+    );
+    setJsonFormData({ ...jsonFormData, Fields: updatedFields });
+    setUpdateTrigger(Date.now());
+    toast.error("Deleted Field!!!", {
+      description: moment().format("DD/MM/yyyy"),
+      duration: 2000,
+      position: "top-center",
+      className: "h-32 w-64 bg-dark-500 text-white text-center"
+    });
   };
 
   return (
@@ -74,7 +109,11 @@ const EditForm = ({ params }) => {
         <div className="p-5 border rounded-lg shadow-md">Controllers</div>
         <div className="col-span-2 border rounded-lg p-4  justify-center flex">
           {jsonFormData ? (
-            <FormUI jsonForms={jsonFormData} onFieldUpdate={onFieldUpdate} />
+            <FormUI
+              jsonForms={jsonFormData}
+              onFieldUpdate={onFieldUpdate}
+              deleteField={(index) => deleteField(index)}
+            />
           ) : (
             <LoaderCircle className="animate-spin" />
           )}

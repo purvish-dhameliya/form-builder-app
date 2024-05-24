@@ -1,6 +1,6 @@
+import React from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import React from "react";
 import {
   Select,
   SelectContent,
@@ -13,11 +13,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import EditField from "./EditField";
 
-const FormUI = ({ jsonForms, onFieldUpdate }) => {
-  console.log("jsonForms:", jsonForms);
-
+const FormUI = ({ jsonForms, onFieldUpdate, deleteField }) => {
   return (
-    <div className="border p-5 rounded-sm md:w-[600px]">
+    <div className="border p-5 rounded-sm md:w-[800px]">
       <h2 className="font-bold text-center text-2xl">{jsonForms?.formTitle}</h2>
       <h2 className="text-sm text-gray-400 text-center">
         {jsonForms?.FormHeading}
@@ -58,12 +56,12 @@ const FormUI = ({ jsonForms, onFieldUpdate }) => {
             </div>
           ) : field?.FieldType === "checkbox" ? (
             <div className="my-3 w-full">
-              <Label className="text-xs text-gray-500 mb-2">
+              <Label className="text-xs text-gray-500 my-2">
                 {field?.FieldTitle}
               </Label>
               {field?.options ? (
                 field?.options?.map((item, index) => (
-                  <div key={index} className="flex gap-2 items-center">
+                  <div key={index} className="flex gap-2 items-center my-2">
                     <Checkbox id={`checkbox-${field.FieldName}-${index}`} />
                     <Label htmlFor={`checkbox-${field.FieldName}-${index}`}>
                       {item}
@@ -109,6 +107,7 @@ const FormUI = ({ jsonForms, onFieldUpdate }) => {
             <EditField
               defaultValue={field}
               onUpdate={(value) => onFieldUpdate(value)}
+              deleteField={() => deleteField(index)}
             />
           </div>
         </div>
