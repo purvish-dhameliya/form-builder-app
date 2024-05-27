@@ -27,7 +27,7 @@ const FormUI = ({
   selectedTheme,
   selectedStyle,
   editable = true,
-  formid=0
+  formid = 0
 }) => {
   const [formData, setFormData] = useState({});
   const formRef = useRef();
@@ -53,32 +53,40 @@ const FormUI = ({
   };
 
   const handleCheckboxChange = (name, value) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: prevState[name] ? [...prevState[name], value] : [value]
-    }));
+    setFormData((prevState) => {
+      const newState = { ...prevState };
+      if (value) {
+        newState[name] = [...(newState[name] || []), value];
+      } else {
+        newState[name] = newState[name].filter((item) => item !== value);
+      }
+      return newState;
+    });
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
 
-    const response = await db.insert(userResponses).values({
-      jsonResponse: formData,
-      createdAt: moment().format("DD/MM/YYYY"),
-      formRef: formid
-    });
-
-    if (response) {
-      formRef.current.reset();
-      toast.success("User response inserted successfully!", {
-        description: moment().format("DD/MM/yyyy"),
-        duration: 2000,
-        position: "top-center",
-        className: "h-32 w-64 bg-dark-500 text-white text-center"
+    try {
+      const response = await db.insert(userResponses).values({
+        jsonResponse: formData,
+        createdAt: moment().format("DD/MM/YYYY"),
+        formRef: formid
       });
-    } else {
-      toast.error("Error while saving form response!", {
+
+      if (response) {
+        formRef.current.reset();
+        toast.success("User response inserted successfully!", {
+          description: moment().format("DD/MM/yyyy"),
+          duration: 2000,
+          position: "top-center",
+          className: "h-32 w-64 bg-dark-500 text-white text-center"
+        });
+      } else {
+        throw new Error("Error while saving form response!");
+      }
+    } catch (error) {
+      toast.error(error.message, {
         description: moment().format("DD/MM/yyyy"),
         duration: 2000,
         position: "top-center",
