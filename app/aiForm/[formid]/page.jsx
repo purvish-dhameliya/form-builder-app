@@ -43,7 +43,7 @@ const LiveAiForm = ({ params }) => {
           onFieldUpdate={() => console.log()}
           deleteField={() => console.log()}
           selectedStyle={record?.style}
-          selectedTheme={record.theme}
+          selectedTheme={record?.theme}
           editable={false}
           formid={record?.id}
         />

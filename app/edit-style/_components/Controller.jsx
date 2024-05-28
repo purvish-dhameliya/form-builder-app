@@ -13,8 +13,14 @@ import Gradientbg from "@/app/_data/Gradientbg";
 import Style from "@/app/_data/Style";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
-const Controller = ({ selectedTheme, selectedBackground, selectedStyle }) => {
+const Controller = ({
+  selectedTheme,
+  selectedBackground,
+  selectedStyle,
+  setSignInEnable
+}) => {
   const [showMore, setShowMore] = useState(6);
   return (
     <div>
@@ -59,29 +65,28 @@ const Controller = ({ selectedTheme, selectedBackground, selectedStyle }) => {
       {/* Background controller */}
       <h2 className="mt-8 my-1">Background </h2>
       <div className="grid grid-cols-3 gap-5 justify-center">
-        {Gradientbg.map(
+        {Gradientbg?.map(
           (bg, index) =>
             index < showMore && (
               <div
                 key={index}
-                onClick={() => selectedBackground(bg.gradient)}
+                onClick={() => selectedBackground(bg?.gradient)}
                 className="w-full h-[70px] rounded-lg flex items-center cursor-pointer hover:border-black hover:border-2 justify-center"
-                style={{ background: bg.gradient }}
+                style={{ background: bg?.gradient }}
               >
                 {index === 0 && "None"}
               </div>
             )
         )}
-        <Button
-          variant="ghost"
-          className="w-full my-1 justify-center"
-          size="sm"
-          onClick={() => setShowMore(showMore > 6 ? 6 : 20)}
-        >
-          {showMore > 6 ? "Show Less" : "Show More"}
-        </Button>
       </div>
-
+      <Button
+        variant="ghost"
+        className="w-full my-1 justify-center border font-bold "
+        size="sm"
+        onClick={() => setShowMore(showMore > 6 ? 6 : 20)}
+      >
+        {showMore > 6 ? "Show Less" : "Show More"}
+      </Button>
       {/* Style Controller */}
       <Label>Style</Label>
       <div className="grid grid-cols-3 gap-3">
@@ -103,6 +108,11 @@ const Controller = ({ selectedTheme, selectedBackground, selectedStyle }) => {
             <h2 className="text-center">{item?.name}</h2>
           </div>
         ))}
+      </div>
+
+      <div className="flex gap-2 my-4 items-center mt-10">
+        <Checkbox onCheckedChange={(e) => setSignInEnable(e)} />{" "}
+        <h2>Enable Social Authentication before submit the form</h2>
       </div>
     </div>
   );

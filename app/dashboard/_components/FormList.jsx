@@ -14,8 +14,8 @@ const FormList = () => {
     const result = await db
       .select()
       .from(JsonForms)
-      .where(eq(JsonForms.createdBy, user?.primaryEmailAddress?.emailAddress))
-      .orderBy(desc(JsonForms.id));
+      .where(eq(JsonForms?.createdBy, user?.primaryEmailAddress?.emailAddress))
+      .orderBy(desc(JsonForms?.id));
 
     console.log(result);
     setFormList(result);
@@ -30,7 +30,7 @@ const FormList = () => {
       {formList?.map((form, index) => (
         <div key={index}>
           <FormItem
-            jsonform={JSON.parse(form.jsonform)}
+            jsonform={JSON.parse(form?.jsonform)}
             formRecord={form}
             refreshData={getFormList}
           />
