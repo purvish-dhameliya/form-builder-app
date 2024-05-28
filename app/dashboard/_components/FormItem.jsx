@@ -28,14 +28,14 @@ const FormItem = ({ jsonform, formRecord, refreshData }) => {
     try {
       await db
         .delete(userResponses)
-        .where(eq(userResponses.formRef, formRecord.id));
+        .where(eq(userResponses?.formRef, formRecord?.id));
 
       const result = await db
         .delete(JsonForms)
         .where(
           and(
-            eq(JsonForms.id, formRecord.id),
-            eq(JsonForms.createdBy, user.primaryEmailAddress.emailAddress)
+            eq(JsonForms?.id, formRecord?.id),
+            eq(JsonForms?.createdBy, user?.primaryEmailAddress?.emailAddress)
           )
         );
 

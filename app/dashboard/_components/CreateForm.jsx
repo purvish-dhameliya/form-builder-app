@@ -4,8 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
-  DialogTitle
+  DialogHeader
 } from "@/components/ui/dialog";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
@@ -73,7 +72,7 @@ const CreateForm = () => {
   useEffect(() => {
     if (loading) {
       const interval = setInterval(() => {
-        setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+        setQuote(quotes[Math.floor(Math.random() * quotes?.length)]);
       }, 2000);
 
       return () => clearInterval(interval);

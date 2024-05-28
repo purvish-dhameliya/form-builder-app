@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   ArrowLeft,
   LoaderCircle,
-  LucideSquareArrowOutUpRight,
-  LucideSquareArrowUpRight,
   Share2,
   SquareArrowOutUpRight
 } from "lucide-react";
@@ -105,12 +103,7 @@ const EditForm = ({ params }) => {
     );
     setJsonFormData({ ...jsonFormData, Fields: updatedFields });
     setUpdateTrigger(Date.now());
-    toast.error("Deleted!!!", {
-      description: moment().format("DD/MM/yyyy"),
-      duration: 2000,
-      position: "top-center",
-      className: "h-32 w-64 bg-dark-500 text-white text-center"
-    });
+    toast.error("Deleted!!!");
   };
 
   const updateControllerFields = async (value, columnName) => {
@@ -121,18 +114,13 @@ const EditForm = ({ params }) => {
       })
       .where(
         and(
-          eq(JsonForms.id, record.id),
-          eq(JsonForms.createdBy, user?.primaryEmailAddress?.emailAddress)
+          eq(JsonForms?.id, record?.id),
+          eq(JsonForms?.createdBy, user?.primaryEmailAddress?.emailAddress)
         )
       )
-      .returning({ id: JsonForms.id });
+      .returning({ id: JsonForms?.id });
 
-    toast.info("Form Changes Occure!!!", {
-      description: moment().format("DD/MM/yyyy"),
-      duration: 2000,
-      position: "top-center",
-      className: "h-32 w-64 bg-dark-500 text-white text-center"
-    });
+    toast.info("Form Changes Occure!!!");
   };
 
   return (
@@ -185,6 +173,9 @@ const EditForm = ({ params }) => {
               updateControllerFields(value, "style");
               setSelectedStyle(value);
             }}
+            setSignInEnable={(value) => {
+              updateControllerFields(value, "enabledSignIn");
+            }}
           />
         </div>
         <div
@@ -200,6 +191,8 @@ const EditForm = ({ params }) => {
               deleteField={(index) => deleteField(index)}
               selectedTheme={selectedTheme}
               selectedStyle={selectedStyle}
+              formid={params?.formid}
+              enabledSignIn={record?.enabledSignIn}
             />
           ) : (
             <LoaderCircle className="animate-spin" />

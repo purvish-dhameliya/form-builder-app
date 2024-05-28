@@ -18,6 +18,7 @@ import Style from "@/app/_data/Style";
 import { db } from "@/config";
 import { userResponses } from "@/config/schema";
 import { toast } from "sonner";
+import { SignInButton, useUser } from "@clerk/nextjs";
 
 const FormUI = ({
   jsonForms,
@@ -26,10 +27,12 @@ const FormUI = ({
   selectedTheme,
   selectedStyle,
   editable = true,
-  formid = 0
+  formid = 0,
+  enabledSignIn = false
 }) => {
   const [formData, setFormData] = useState({});
   const formRef = useRef();
+  const { isSignedIn } = useUser();
 
   const selectedStyleObject = Style?.find(
     (style) => style?.id === selectedStyle?.id
@@ -61,31 +64,22 @@ const FormUI = ({
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
+    console.log("Form Data:", formData);
+    console.log("Form ID:", formid);
 
-    const response = await db.insert(userResponses).values({
-      jsonResponse: formData,
-      createdAt: moment().format("DD/MM/YYYY"),
-      formRef: formid
-    });
-    console.log("response :>> ", response);
-    console.log("formData :>> ", formData);
-    console.log("formRef :>> ", formRef);
-    if (response) {
-      formRef.current.reset();
-      toast.success("User response inserted successfully!", {
-        description: moment().format("DD/MM/yyyy"),
-        duration: 2000,
-        position: "top-center",
-        className: "h-32 w-64 bg-dark-500 text-white text-center"
+    try {
+      const response = await db.insert(userResponses).values({
+        jsonResponse: JSON.stringify(formData),
+        createdAt: moment().format("YYYY-MM-DD"),
+        formRef: formid
       });
-    } else {
-      toast.error("Error while saving form response!", {
-        description: moment().format("DD/MM/yyyy"),
-        duration: 2000,
-        position: "top-center",
-        className: "h-32 w-64 bg-dark-500 text-white text-center"
-      });
+
+      if (response) {
+        formRef.current.reset();
+        toast.success("User response inserted successfully!");
+      }
+    } catch (error) {
+      toast.error("Error while saving form response!");
     }
   };
 
@@ -199,7 +193,15 @@ const FormUI = ({
           )}
         </div>
       ))}
-      <Button type="submit">Submit</Button>
+      {enabledSignIn ? (
+        <Button type="submit">Submit</Button>
+      ) : isSignedIn ? (
+        <Button type="submit">Submit</Button>
+      ) : (
+        <Button>
+          <SignInButton mode="modal">Sign In Before Submit</SignInButton>
+        </Button>
+      )}
     </form>
   );
 };

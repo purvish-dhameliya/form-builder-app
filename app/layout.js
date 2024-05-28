@@ -1,16 +1,13 @@
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Header from "./_components/Header";
 import {
     ClerkProvider,
-    SignInButton,
-    SignedIn,
-    SignedOut,
-    UserButton
 } from '@clerk/nextjs'
 import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
+const SpaceGrotesk= Space_Grotesk({ subsets: ["latin-ext"] })
 
 export const metadata = {
     title: "Form Builder App",
@@ -21,7 +18,7 @@ export default function RootLayout({ children }) {
     return (
         <ClerkProvider>
             <html lang="en">
-                <body className={inter.className}>
+                <body className={SpaceGrotesk.className}>
                     <Header />
                     {children}
                     <Toaster/>
