@@ -1,4 +1,3 @@
-"use client";
 import React, { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -52,41 +51,35 @@ const FormUI = ({
     });
   };
 
-  const handleCheckboxChange = (name, value) => {
-    setFormData((prevState) => {
-      const newState = { ...prevState };
-      if (value) {
-        newState[name] = [...(newState[name] || []), value];
-      } else {
-        newState[name] = newState[name].filter((item) => item !== value);
-      }
-      return newState;
-    });
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: checked
+    }));
   };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
+    console.log(formData);
 
-    try {
-      const response = await db.insert(userResponses).values({
-        jsonResponse: formData,
-        createdAt: moment().format("DD/MM/YYYY"),
-        formRef: formid
+    const response = await db.insert(userResponses).values({
+      jsonResponse: formData,
+      createdAt: moment().format("DD/MM/YYYY")
+    });
+    console.log("response :>> ", response);
+    console.log("formData :>> ", formData);
+    console.log("formRef :>> ", formRef);
+    if (response) {
+      formRef.current.reset();
+      toast.success("User response inserted successfully!", {
+        description: moment().format("DD/MM/yyyy"),
+        duration: 2000,
+        position: "top-center",
+        className: "h-32 w-64 bg-dark-500 text-white text-center"
       });
-
-      if (response) {
-        formRef.current.reset();
-        toast.success("User response inserted successfully!", {
-          description: moment().format("DD/MM/yyyy"),
-          duration: 2000,
-          position: "top-center",
-          className: "h-32 w-64 bg-dark-500 text-white text-center"
-        });
-      } else {
-        throw new Error("Error while saving form response!");
-      }
-    } catch (error) {
-      toast.error(error.message, {
+    } else {
+      toast.error("Error while saving form response!", {
         description: moment().format("DD/MM/yyyy"),
         duration: 2000,
         position: "top-center",
@@ -109,7 +102,7 @@ const FormUI = ({
       </h2>
       {jsonForms?.Fields?.map((field, index) => (
         <div key={field?.FieldName} className="flex items-center gap-2">
-          {field?.FieldType === "dropdown" ? (
+          {field?.FieldType === "select" ? (
             <div className="my-3 w-full">
               <Label className="text-xs text-gray-500">
                 {field?.FieldTitle}
@@ -146,7 +139,7 @@ const FormUI = ({
               >
                 {field?.options?.map((option, index) => (
                   <div key={index} className="flex items-center space-x-2">
-                    <RadioGroupItem value={option} id={`option-${index}`} />
+                    <RadioGroupItem value={option} />
                     <Label htmlFor={`option-${index}`}>{option}</Label>
                   </div>
                 ))}
@@ -157,20 +150,14 @@ const FormUI = ({
               <Label className="text-xs text-gray-500 my-2">
                 {field?.FieldTitle}
               </Label>
-              {field?.options?.map((item, index) => (
-                <div key={index} className="flex gap-2 items-center my-2">
-                  <Checkbox
-                    id={`checkbox-${field.FieldName}-${index}`}
-                    onChange={(e) =>
-                      handleCheckboxChange(field.FieldName, item)
-                    }
-                    required={field?.Required}
-                  />
-                  <Label htmlFor={`checkbox-${field.FieldName}-${index}`}>
-                    {item}
-                  </Label>
-                </div>
-              ))}
+              <Checkbox
+                checked={formData[field.FieldName] || false}
+                onChange={handleCheckboxChange}
+                required={field?.Required}
+              />
+              <Label htmlFor={`checkbox-${field.FieldName}`}>
+                {field?.FieldTitle}
+              </Label>
             </div>
           ) : field?.FieldType === "textarea" ? (
             <div className="my-3 w-full">

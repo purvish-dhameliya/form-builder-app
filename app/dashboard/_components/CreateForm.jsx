@@ -58,7 +58,7 @@ const CreateForm = () => {
             createdAt: moment().format("DD/MM/yyyy")
           })
           .returning({ id: JsonForms.id });
-
+        console.log("resp :>> ", resp);
         if (resp[0].id) {
           router.push("/edit-style/" + resp[0].id);
         }

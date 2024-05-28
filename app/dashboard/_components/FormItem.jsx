@@ -16,27 +16,37 @@ import {
 } from "@/components/ui/alert-dialog";
 import { db } from "@/config";
 import { useUser } from "@clerk/nextjs";
-import { JsonForms } from "@/config/schema";
+import { JsonForms, userResponses } from "@/config/schema";
 import { and, eq } from "drizzle-orm";
 import { toast } from "sonner";
 
 const FormItem = ({ jsonform, formRecord, refreshData }) => {
   const { user } = useUser();
-  const onDeleteForm = async () => {
-    const result = await db
-      .delete(JsonForms)
-      .where(
-        and(
-          eq(JsonForms?.id, formRecord?.id),
-          eq(JsonForms?.createdBy, user?.primaryEmailAddress?.emailAddress)
-        )
-      );
 
-    if (result) {
-      toast("Form Deleted!!!");
-      refreshData();
+  const onDeleteForm = async () => {
+    try {
+      await db
+        .delete(userResponses)
+        .where(eq(userResponses.formRef, formRecord.id));
+
+      const result = await db
+        .delete(JsonForms)
+        .where(
+          and(
+            eq(JsonForms.id, formRecord.id),
+            eq(JsonForms.createdBy, user.primaryEmailAddress.emailAddress)
+          )
+        );
+
+      if (result) {
+        toast("Form Deleted!!!");
+        refreshData();
+      }
+    } catch (error) {
+      console.error("Error deleting form:", error);
     }
   };
+
   return (
     <div className="border shadow-sm rounded-lg p-4 ">
       <div className="flex gap-2 justify-between">
