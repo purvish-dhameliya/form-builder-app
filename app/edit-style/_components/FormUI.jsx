@@ -65,7 +65,8 @@ const FormUI = ({
 
     const response = await db.insert(userResponses).values({
       jsonResponse: formData,
-      createdAt: moment().format("DD/MM/YYYY")
+      createdAt: moment().format("DD/MM/YYYY"),
+      formRef: formid
     });
     console.log("response :>> ", response);
     console.log("formData :>> ", formData);

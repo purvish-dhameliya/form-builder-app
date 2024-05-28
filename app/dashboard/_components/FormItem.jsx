@@ -48,7 +48,7 @@ const FormItem = ({ jsonform, formRecord, refreshData }) => {
   };
 
   return (
-    <div className="border shadow-sm rounded-lg p-4 ">
+    <div className="border shadow-sm rounded-lg p-4">
       <div className="flex gap-2 justify-between">
         <h2></h2>
         <AlertDialog asChild>
@@ -76,7 +76,7 @@ const FormItem = ({ jsonform, formRecord, refreshData }) => {
       <h2 className="text-lg text-black">{jsonform?.formTitle}</h2>
       <h2 className="text-sm text-gray-500">{jsonform?.FormHeading}</h2>
       <hr className="my-4"></hr>
-      <div className="flex gap-2 justify-between">
+      <div className="flex gap-2 justify-between my-4">
         <Button size="sm" className="flex gap-2 cursor-pointer">
           {" "}
           <Share2 size={16} /> Share
