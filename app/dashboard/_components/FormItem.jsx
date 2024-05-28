@@ -19,6 +19,7 @@ import { useUser } from "@clerk/nextjs";
 import { JsonForms, userResponses } from "@/config/schema";
 import { and, eq } from "drizzle-orm";
 import { toast } from "sonner";
+import { RWebShare } from "react-web-share";
 
 const FormItem = ({ jsonform, formRecord, refreshData }) => {
   const { user } = useUser();
@@ -77,10 +78,22 @@ const FormItem = ({ jsonform, formRecord, refreshData }) => {
       <h2 className="text-sm text-gray-500">{jsonform?.FormHeading}</h2>
       <hr className="my-4"></hr>
       <div className="flex gap-2 justify-between my-4">
-        <Button size="sm" className="flex gap-2 cursor-pointer">
-          {" "}
-          <Share2 size={16} /> Share
-        </Button>
+        <RWebShare
+          data={{
+            text:
+              jsonform?.FormHeading +
+              " , Build Your Form in Seconds with AI Forms.",
+            url: process.env.NEXT_PUBLIC_BASE_URL + "/aiForm/" + formRecord?.id,
+            title: jsonform?.formTitle
+          }}
+          onClick={() => console.log("shared successfully!")}
+        >
+          <Button size="sm" className="flex gap-2 cursor-pointer">
+            {" "}
+            <Share2 size={16} /> Share
+          </Button>
+        </RWebShare>
+
         <Link href={"/edit-style/" + formRecord?.id}>
           <Button
             size="sm"

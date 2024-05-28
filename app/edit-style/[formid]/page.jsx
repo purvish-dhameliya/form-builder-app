@@ -19,6 +19,7 @@ import FormUI from "../_components/FormUI";
 import Controller from "../_components/Controller";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { RWebShare } from "react-web-share";
 
 const EditForm = ({ params }) => {
   const { user } = useUser();
@@ -151,10 +152,21 @@ const EditForm = ({ params }) => {
               Live Preview
             </Button>
           </Link>
-          <Button className="flex gap-2 bg-green-600 hover:bg-green-800">
-            <Share2 />
-            Share
-          </Button>
+          <RWebShare
+            data={{
+              text:
+                jsonFormData?.FormHeading +
+                " , Build Your Form in Seconds with AI Forms.",
+              url: process.env.NEXT_PUBLIC_BASE_URL + "/aiForm/" + record?.id,
+              title: jsonFormData?.formTitle
+            }}
+            onClick={() => console.log("shared successfully!")}
+          >
+            <Button className="flex gap-2 bg-green-600 hover:bg-green-800">
+              <Share2 />
+              Share
+            </Button>
+          </RWebShare>
         </div>
       </div>
 
