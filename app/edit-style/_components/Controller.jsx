@@ -8,13 +8,12 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import Themes from "/app/_data/Themes";
-import Gradientbg from "/app/_data/Gradientbg";
 import Style from "/app/_data/Style";
+import GradientBg from "/app/_data/GradientBg";
 
 const Controller = ({
   selectedTheme,
@@ -83,7 +82,7 @@ const Controller = ({
         <div className="space-y-2">
           <h2 className="my-1">Background</h2>
           <div className="grid justify-center grid-cols-3 gap-5">
-            {Gradientbg.slice(0, showMore).map((bg, index) => (
+            {GradientBg.slice(0, showMore).map((bg, index) => (
               <motion.div
                 key={index}
                 onClick={() => selectedBackground(bg.gradient)}
