@@ -34,6 +34,10 @@ export default [
       "&:hover": {
         boxShadow: "0 8px 12px rgba(0, 0, 0, 0.2)",
         transform: "scale(1.02)"
+      },
+      "&:focus": {
+        outline: "none",
+        boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.5)"
       }
     }
   }

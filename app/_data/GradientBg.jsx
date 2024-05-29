@@ -1,7 +1,7 @@
 export default [
   {
     name: "Sky",
-    gradient: "linear-gradient(to right, #24cfe8, #7368aa)"
+    gradient: "linear-gradient(to right, #fff, #fff)"
   },
   {
     name: "sunset",

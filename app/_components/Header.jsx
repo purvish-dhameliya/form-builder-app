@@ -21,6 +21,7 @@ const Header = () => {
           <Link href={"/"}>
             <Image src={"/logo3.png"} alt="logo" width={"200"} height={150} />
           </Link>
+
           {isSignedIn ? (
             <div className="flex items-center gap-5">
               <Link href={"/dashboard"}>
@@ -29,7 +30,7 @@ const Header = () => {
               <UserButton />
             </div>
           ) : (
-            <SignInButton>
+            <SignInButton mode="modal" >
               <Button className="bg-primary">Get started</Button>
             </SignInButton>
           )}

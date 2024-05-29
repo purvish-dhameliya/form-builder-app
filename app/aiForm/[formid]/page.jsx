@@ -35,7 +35,7 @@ const LiveAiForm = ({ params }) => {
 
   return (
     <div
-      className="flex p-10 justify-center items-center h-screen"
+      className="flex items-center justify-center p-10"
       style={{ backgroundImage: record?.background }}
     >
       {record && (
@@ -50,7 +50,7 @@ const LiveAiForm = ({ params }) => {
         />
       )}
       <Link
-        className="flex gap-2 items-center bg-black px-3 text-white py-1 rounded-full fixed bottom-5 left-5 cursor-pointer"
+        className="fixed flex items-center gap-2 px-3 py-1 text-white bg-black rounded-full cursor-pointer bottom-5 left-5"
         href={"/"}
       >
         <Image src={"/logo3.png"} width={86} height={86} alt="logo" />

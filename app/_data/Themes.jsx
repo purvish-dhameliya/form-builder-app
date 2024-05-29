@@ -1,7 +1,7 @@
 export default [
   {
     "color-scheme": "light",
-    primary: "#1f2937",
+    primary: "#9ca3af",
     "primary-content": "#ffffff",
     secondary: "#3b82f6",
     accent: "#fbbf24",

@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 const EditField = dynamic(() => import("./EditField"));
 import Style from "@/app/_data/Style";
 import { db } from "@/config";
@@ -85,12 +86,15 @@ const FormUI = ({
   };
 
   return (
-    <form
+    <motion.form
       ref={formRef}
       onSubmit={handleFormSubmit}
       className="border p-5 rounded-sm md:w-[600px]"
       data-theme={selectedTheme}
       style={formStyle}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
     >
       <h2 className="font-bold text-center text-2xl">{jsonForms?.formTitle}</h2>
       <h2 className="text-sm text-gray-400 text-center">
@@ -203,7 +207,7 @@ const FormUI = ({
           <SignInButton mode="modal">Sign In Before Submit</SignInButton>
         </Button>
       )}
-    </form>
+    </motion.form>
   );
 };
 
