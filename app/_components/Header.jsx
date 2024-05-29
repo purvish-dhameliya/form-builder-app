@@ -13,12 +13,14 @@ const Header = () => {
   useEffect(() => {
     console.log(path);
   }, [path]);
-  
+
   return (
     !path.includes("aiForm") && (
-      <div className="p-5 border-b shadow-sm">
+      <div className="p-3 border-b shadow-sm">
         <div className="flex items-center justify-between">
-          <Image src={"/logo.svg"} alt="logo" width={"100"} height={80} />
+          <Link href={"/"}>
+            <Image src={"/logo3.png"} alt="logo" width={"200"} height={150} />
+          </Link>
           {isSignedIn ? (
             <div className="flex items-center gap-5">
               <Link href={"/dashboard"}>

@@ -1,6 +1,7 @@
 import React from "react";
-import CreateForm from "./_components/CreateForm";
-import FormList from "./_components/FormList";
+import dynamic from "next/dynamic";
+const CreateForm = dynamic(() => import("./_components/CreateForm"));
+const FormList = dynamic(() => import("./_components/FormList"));
 
 const Dashboard = () => {
   return (

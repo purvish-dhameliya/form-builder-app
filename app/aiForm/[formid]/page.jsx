@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import FormUI from "@/app/edit-style/_components/FormUI";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
 import { db } from "@/config";
 import { JsonForms } from "@/config/schema";
 import { eq } from "drizzle-orm";
-import Image from "next/image";
-import Link from "next/link";
+const FormUI = dynamic(() => import("@/app/edit-style/_components/FormUI"));
 
 const LiveAiForm = ({ params }) => {
   const [record, setRecord] = useState();
@@ -52,7 +53,7 @@ const LiveAiForm = ({ params }) => {
         className="flex gap-2 items-center bg-black px-3 text-white py-1 rounded-full fixed bottom-5 left-5 cursor-pointer"
         href={"/"}
       >
-        <Image src={"/logo.svg"} width={86} height={86} alt="logo" />
+        <Image src={"/logo3.png"} width={86} height={86} alt="logo" />
         <span className="text-white">Build Your AI Form</span>
       </Link>
     </div>

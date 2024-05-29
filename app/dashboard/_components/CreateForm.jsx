@@ -1,20 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import moment from "moment";
+import { LoaderCircle } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader
 } from "@/components/ui/dialog";
-import moment from "moment";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { AiChatSession } from "@/config/gemini-api";
-import { useUser } from "@clerk/nextjs";
 import { JsonForms } from "@/config/schema";
 import { db } from "@/config";
-import { useRouter } from "next/navigation";
-import { LoaderCircle } from "lucide-react";
 
 const PROMPT =
   ", On the basis of the description, please generate a form in JSON format with the following consistent keys: 'formTitle', 'FormHeading', 'Fields' (array of objects with keys 'FieldName', 'FieldTitle', 'FieldType', 'Placeholder', 'options' (if applicable), and 'Required'). Ensure all keys are exactly as specified.";

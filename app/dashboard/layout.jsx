@@ -1,6 +1,7 @@
 import React from "react";
-import Sidebar from "./_components/Sidebar";
+import dynamic from "next/dynamic";
 import { SignedIn } from "@clerk/nextjs";
+const Sidebar = dynamic(() => import("./_components/Sidebar"));
 
 const DashboardLayout = ({ children }) => {
   return (

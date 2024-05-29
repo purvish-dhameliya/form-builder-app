@@ -1,8 +1,8 @@
 "use client";
-import PriceingPlan from "@/app/_data/PriceingPlan";
-import { useUser } from "@clerk/nextjs";
-import Link from "next/link";
 import React from "react";
+import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
+import PriceingPlan from "@/app/_data/PriceingPlan";
 
 const Upgrade = () => {
   const { user } = useUser();

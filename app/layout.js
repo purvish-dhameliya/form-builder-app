@@ -1,12 +1,12 @@
-import { Inter, Space_Grotesk } from "next/font/google";
-import "./globals.css";
-import Header from "./_components/Header";
+import { Space_Grotesk } from "next/font/google";
+import dynamic from 'next/dynamic'
 import {
     ClerkProvider,
 } from '@clerk/nextjs'
+const Header = dynamic(() => import('./_components/Header'))
 import { Toaster } from "@/components/ui/sonner";
+import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
 const SpaceGrotesk= Space_Grotesk({ subsets: ["latin-ext"] })
 
 export const metadata = {

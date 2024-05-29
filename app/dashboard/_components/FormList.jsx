@@ -1,10 +1,11 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { db } from "@/config";
 import { JsonForms } from "@/config/schema";
 import { useUser } from "@clerk/nextjs";
 import { desc, eq } from "drizzle-orm";
-import React, { useEffect, useState } from "react";
-import FormItem from "./FormItem";
+const FormItem = dynamic(() => import("./FormItem"));
 
 const FormList = () => {
   const { user } = useUser();

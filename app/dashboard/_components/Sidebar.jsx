@@ -1,22 +1,22 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import { LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { db } from "@/config";
-import { JsonForms } from "@/config/schema";
-import { useUser } from "@clerk/nextjs";
-import { desc, eq } from "drizzle-orm";
-import { LoaderCircle } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader
 } from "@/components/ui/dialog";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { AiChatSession } from "@/config/gemini-api";
+import { desc, eq } from "drizzle-orm";
+import { db } from "@/config";
+import { JsonForms } from "@/config/schema";
 import MenuList from "@/app/_data/MenuList";
 
 const Sidebar = () => {
@@ -92,6 +92,7 @@ const Sidebar = () => {
           </Link>
         ))}
       </div>
+
       <div className="fixed bottom-20 p-6 w-64">
         <Button className="w-full" onClick={() => setOpenDialog(true)}>
           + Create Form
@@ -130,7 +131,7 @@ const Sidebar = () => {
             </DialogHeader>
           </DialogContent>
         </Dialog>
-        <div className="my-7">
+        <div className="my-10 items-center ">
           <Progress value={percentageFileCreated} />
           <h2 className="text-sm mt-2 text-gray-500">
             <strong>{formList?.length}</strong> Out of<strong> 3</strong> File

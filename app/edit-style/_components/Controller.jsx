@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -7,13 +8,13 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import Themes from "@/app/_data/Themes";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import Gradientbg from "@/app/_data/Gradientbg";
-import Style from "@/app/_data/Style";
-import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import Themes from "@/app/_data/Themes";
+import Gradientbg from "@/app/_data/Gradientbg";
+import Style from "@/app/_data/Style";
 
 const Controller = ({
   selectedTheme,

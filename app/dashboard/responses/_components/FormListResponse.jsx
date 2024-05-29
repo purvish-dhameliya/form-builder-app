@@ -1,6 +1,7 @@
+"use client";
 import React, { useState } from "react";
-import { Loader2 } from "lucide-react";
 import * as XLSX from "xlsx";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { db } from "@/config";
 import { userResponses } from "@/config/schema";
@@ -8,6 +9,7 @@ import { eq } from "drizzle-orm";
 
 const FormListResponse = ({ jsonForm, formRecord }) => {
   const [loading, setLoading] = useState(false);
+
   const ExportData = async () => {
     let jsonData = [];
     setLoading(true);
@@ -34,20 +36,14 @@ const FormListResponse = ({ jsonForm, formRecord }) => {
   };
 
   return (
-    <div className="border shadow-sm rounded-lg p-4 my-5">
-      <h2 className="text-lg text-black">{jsonForm?.formTitle}</h2>
-      <h2 className="text-sm text-gray-500">{jsonForm?.FormHeading}</h2>
-      <hr className="my-4"></hr>
-      <div className="flex  justify-between">
-        <h2>
-          <strong>45</strong> responses
-        </h2>
-        <Button
-          onClick={() => ExportData()}
-          className=""
-          size="sm"
-          disabled={loading}
-        >
+    <div className="border shadow-sm rounded-lg p-4 my-5 text-center flex flex-col justify-between h-full w-full">
+      <div>
+        <h2 className="text-lg text-black">{jsonForm?.formTitle}</h2>
+        <h2 className="text-sm text-gray-500">{jsonForm?.FormHeading}</h2>
+        <hr className="my-3" />
+      </div>
+      <div className="flex justify-center items-center">
+        <Button onClick={ExportData} className="" size="sm" disabled={loading}>
           {loading ? <Loader2 className="animate-spin" /> : "Export"}
         </Button>
       </div>

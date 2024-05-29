@@ -2,6 +2,9 @@ import React, { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import moment from "moment";
+import dynamic from "next/dynamic";
+import { toast } from "sonner";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import {
   Select,
   SelectContent,
@@ -12,13 +15,11 @@ import {
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import EditField from "./EditField";
 import { Button } from "@/components/ui/button";
+const EditField = dynamic(() => import("./EditField"));
 import Style from "@/app/_data/Style";
 import { db } from "@/config";
 import { userResponses } from "@/config/schema";
-import { toast } from "sonner";
-import { SignInButton, useUser } from "@clerk/nextjs";
 
 const FormUI = ({
   jsonForms,

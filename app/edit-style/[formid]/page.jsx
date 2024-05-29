@@ -1,5 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { RWebShare } from "react-web-share";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   LoaderCircle,
@@ -12,12 +16,9 @@ import { db } from "@/config";
 import { JsonForms } from "@/config/schema";
 import { and, eq } from "drizzle-orm";
 import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import FormUI from "../_components/FormUI";
-import Controller from "../_components/Controller";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { RWebShare } from "react-web-share";
+const FormUI = dynamic(() => import("../_components/FormUI"));
+const Controller = dynamic(() => import("../_components/Controller"));
 
 const EditForm = ({ params }) => {
   const { user } = useUser();
@@ -30,9 +31,7 @@ const EditForm = ({ params }) => {
   const [selectedStyle, setSelectedStyle] = useState();
 
   useEffect(() => {
-    if (user) {
-      getFormData();
-    }
+    user && getFormData();
   }, [user]);
 
   const getFormData = async () => {
@@ -60,9 +59,7 @@ const EditForm = ({ params }) => {
   };
 
   useEffect(() => {
-    if (updateTrigger) {
-      updateJsonFormInDb();
-    }
+    updateTrigger && updateJsonFormInDb();
   }, [updateTrigger]);
 
   const updateJsonFormInDb = async () => {
