@@ -57,7 +57,7 @@ const CreateForm = () => {
             createdAt: moment().format("DD/MM/yyyy")
           })
           .returning({ id: JsonForms.id });
-        console.log("resp :>> ", resp);
+       
         if (resp[0].id) {
           router.push("/edit-style/" + resp[0].id);
         }
@@ -88,7 +88,7 @@ const CreateForm = () => {
             <DialogDescription>
               {loading ? (
                 <div className="flex flex-col items-center">
-                  <LoaderCircle className="animate-spin mb-4" />
+                  <LoaderCircle className="mb-4 animate-spin" />
                   <p className="text-center">{quote}</p>
                 </div>
               ) : (
@@ -99,7 +99,7 @@ const CreateForm = () => {
                     onChange={(e) => setUserInput(e.target.value)}
                     value={userInput}
                   />
-                  <div className="flex gap-2 my-3 justify-end">
+                  <div className="flex justify-end gap-2 my-3">
                     <Button
                       variant="destructive"
                       onClick={() => setOpenDialog(false)}

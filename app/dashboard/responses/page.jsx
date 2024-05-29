@@ -30,7 +30,6 @@ const Responses = () => {
           eq(JsonForms?.createdBy, user?.primaryEmailAddress?.emailAddress)
         );
 
-      console.log("Form list result :>> ", result);
       setFormList(result);
     } catch (error) {
       console.error("Error fetching form list:", error);
@@ -45,10 +44,10 @@ const Responses = () => {
 
   return (
     <div className="p-8">
-      <h2 className="font-bold text-3xl flex items-center justify-between">
+      <h2 className="flex items-center justify-between text-3xl font-bold">
         Responses
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-2 gap-5 md:grid-cols-3">
         {formList?.map((form, index) => (
           <FormListResponse
             key={index}

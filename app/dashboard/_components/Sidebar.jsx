@@ -17,7 +17,7 @@ import { AiChatSession } from "@/config/gemini-api";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/config";
 import { JsonForms } from "@/config/schema";
-import MenuList from "@/app/_data/MenuList";
+import MenuList from "/app/_data/MenuList";
 
 const Sidebar = () => {
   const path = usePathname();
@@ -57,7 +57,7 @@ const Sidebar = () => {
             createdAt: moment().format("DD/MM/yyyy")
           })
           .returning({ id: JsonForms.id });
-        console.log("resp :>> ", resp);
+     
         if (resp[0].id) {
           router.push("/edit-style/" + resp[0].id);
         }
@@ -78,7 +78,7 @@ const Sidebar = () => {
   }, [path]);
 
   return (
-    <div className="h-screen shadow-md border">
+    <div className="h-screen border shadow-md">
       <div className="p-5">
         {MenuList?.map((menu, index) => (
           <Link
@@ -93,7 +93,7 @@ const Sidebar = () => {
         ))}
       </div>
 
-      <div className="fixed bottom-20 p-6 w-64">
+      <div className="fixed w-64 p-6 bottom-20">
         <Button className="w-full" onClick={() => setOpenDialog(true)}>
           + Create Form
         </Button>
@@ -103,7 +103,7 @@ const Sidebar = () => {
               <DialogDescription>
                 {loading ? (
                   <div className="flex flex-col items-center">
-                    <LoaderCircle className="animate-spin mb-4" />
+                    <LoaderCircle className="mb-4 animate-spin" />
                     <p className="text-center">{quote}</p>
                   </div>
                 ) : (
@@ -114,7 +114,7 @@ const Sidebar = () => {
                       onChange={(e) => setUserInput(e.target.value)}
                       value={userInput}
                     />
-                    <div className="flex gap-2 my-3 justify-end">
+                    <div className="flex justify-end gap-2 my-3">
                       <Button
                         variant="destructive"
                         onClick={() => setOpenDialog(false)}
@@ -131,13 +131,13 @@ const Sidebar = () => {
             </DialogHeader>
           </DialogContent>
         </Dialog>
-        <div className="my-10 items-center ">
+        <div className="items-center my-10 ">
           <Progress value={percentageFileCreated} />
-          <h2 className="text-sm mt-2 text-gray-500">
+          <h2 className="mt-2 text-sm text-gray-500">
             <strong>{formList?.length}</strong> Out of<strong> 3</strong> File
             Created
           </h2>
-          <h2 className="text-sm mt-2 text-gray-600">
+          <h2 className="mt-2 text-sm text-gray-600">
             upgrade your plan for unlimited AI form build.
           </h2>
         </div>

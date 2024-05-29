@@ -18,7 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 const EditField = dynamic(() => import("./EditField"));
-import Style from "@/app/_data/Style";
+import Style from "/app/_data/Style";
 import { db } from "@/config";
 import { userResponses } from "@/config/schema";
 
@@ -66,9 +66,6 @@ const FormUI = ({
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form Data:", formData);
-    console.log("Form ID:", formid);
-
     try {
       const response = await db.insert(userResponses).values({
         jsonResponse: JSON.stringify(formData),
@@ -96,14 +93,14 @@ const FormUI = ({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="font-bold text-center text-2xl">{jsonForms?.formTitle}</h2>
-      <h2 className="text-sm text-gray-400 text-center">
+      <h2 className="text-2xl font-bold text-center">{jsonForms?.formTitle}</h2>
+      <h2 className="text-sm text-center text-gray-400">
         {jsonForms?.FormHeading}
       </h2>
       {jsonForms?.Fields?.map((field, index) => (
         <div key={field?.FieldName} className="flex items-center gap-2">
           {field?.FieldType === "select" ? (
-            <div className="my-3 w-full">
+            <div className="w-full my-3">
               <Label className="text-xs text-gray-500">
                 {field?.FieldTitle}
               </Label>
@@ -126,7 +123,7 @@ const FormUI = ({
               </Select>
             </div>
           ) : field?.FieldType === "radio" ? (
-            <div className="my-3 w-full">
+            <div className="w-full my-3">
               <Label className="text-xs text-gray-500">
                 {field?.FieldTitle}
               </Label>
@@ -146,8 +143,8 @@ const FormUI = ({
               </RadioGroup>
             </div>
           ) : field?.FieldType === "checkbox" ? (
-            <div className="my-3 w-full">
-              <Label className="text-xs text-gray-500 my-2">
+            <div className="w-full my-3">
+              <Label className="my-2 text-xs text-gray-500">
                 {field?.FieldTitle}
               </Label>
               <Checkbox
@@ -160,28 +157,28 @@ const FormUI = ({
               </Label>
             </div>
           ) : field?.FieldType === "textarea" ? (
-            <div className="my-3 w-full">
-              <Label className="block text-xs text-gray-500 mb-2">
+            <div className="w-full my-3">
+              <Label className="block mb-2 text-xs text-gray-500">
                 {field?.FieldTitle}
               </Label>
               <Textarea
                 name={field?.FieldName}
                 placeholder={field?.Placeholder}
-                className="p-2 w-full"
+                className="w-full p-2"
                 required={field?.Required}
                 onChange={handleInputChange}
               />
             </div>
           ) : (
-            <div className="my-3 w-full">
-              <Label className="block text-xs text-gray-500 mb-2">
+            <div className="w-full my-3">
+              <Label className="block mb-2 text-xs text-gray-500">
                 {field?.FieldTitle}
               </Label>
               <Input
                 type={field?.FieldType}
                 name={field?.FieldName}
                 placeholder={field?.Placeholder}
-                className="p-2 w-full"
+                className="w-full p-2"
                 required={field?.Required}
                 onChange={handleInputChange}
               />

@@ -12,9 +12,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import Themes from "@/app/_data/Themes";
-import Gradientbg from "@/app/_data/Gradientbg";
-import Style from "@/app/_data/Style";
+import Themes from "/app/_data/Themes";
+import Gradientbg from "/app/_data/Gradientbg";
+import Style from "/app/_data/Style";
 
 const Controller = ({
   selectedTheme,
@@ -54,19 +54,19 @@ const Controller = ({
                 <SelectItem value={theme.theme} key={index}>
                   <div className="flex items-center gap-3">
                     <div
-                      className="h-5 w-5 rounded-l-md"
+                      className="w-5 h-5 rounded-l-md"
                       style={{ backgroundColor: theme.primary }}
                     ></div>
                     <div
-                      className="h-5 w-5"
+                      className="w-5 h-5"
                       style={{ backgroundColor: theme.secondary }}
                     ></div>
                     <div
-                      className="h-5 w-5"
+                      className="w-5 h-5"
                       style={{ backgroundColor: theme.accent }}
                     ></div>
                     <div
-                      className="h-5 w-5 rounded-r-md"
+                      className="w-5 h-5 rounded-r-md"
                       style={{ backgroundColor: theme.neutral }}
                     ></div>
                     {theme.theme}
@@ -82,7 +82,7 @@ const Controller = ({
         {/* Background controller */}
         <div className="space-y-2">
           <h2 className="my-1">Background</h2>
-          <div className="grid grid-cols-3 gap-5 justify-center">
+          <div className="grid justify-center grid-cols-3 gap-5">
             {Gradientbg.slice(0, showMore).map((bg, index) => (
               <motion.div
                 key={index}
@@ -97,7 +97,7 @@ const Controller = ({
           </div>
           <Button
             variant="ghost"
-            className="w-full my-1 justify-center border font-bold"
+            className="justify-center w-full my-1 font-bold border"
             size="sm"
             onClick={() => setShowMore(showMore > 6 ? 6 : 20)}
           >
@@ -110,11 +110,11 @@ const Controller = ({
         <div className="space-y-2">
           {/* Style Controller */}
           <Label className="text-lg font-semibold">Style</Label>
-          <div className="grid grid-cols-3 gap-3 h-full w-full">
+          <div className="grid w-full h-full grid-cols-3 gap-3">
             {Style.map((item, index) => (
               <div
                 key={index}
-                className="cursor-pointer hover:border-2 rounded-lg flex justify-center items-center object-cover"
+                className="flex items-center justify-center object-cover rounded-lg cursor-pointer hover:border-2"
                 onClick={() => selectedStyle(item)}
               >
                 <Image
@@ -122,7 +122,7 @@ const Controller = ({
                   alt={item.name}
                   width={90}
                   height={70}
-                  className="rounded-lg object-cover"
+                  className="object-cover rounded-lg"
                 />
                 <h2 className="text-lg font-semibold">{item.name}</h2>
               </div>
@@ -133,7 +133,7 @@ const Controller = ({
 
       <motion.div variants={itemVariants}>
         {/* Checkbox for Sign-in Enable */}
-        <div className="flex gap-2 my-4 items-center mt-10">
+        <div className="flex items-center gap-2 my-4 mt-10">
           <Checkbox onCheckedChange={setSignInEnable} />
           <h2>Enable Social Authentication before submitting the form</h2>
         </div>

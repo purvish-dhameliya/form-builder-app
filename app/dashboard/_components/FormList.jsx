@@ -18,7 +18,6 @@ const FormList = () => {
       .where(eq(JsonForms?.createdBy, user?.primaryEmailAddress?.emailAddress))
       .orderBy(desc(JsonForms?.id));
 
-    console.log(result);
     setFormList(result);
   };
 
@@ -27,7 +26,7 @@ const FormList = () => {
   }, [user]);
 
   return (
-    <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 gap-3 mt-5 md:grid-cols-2">
       {formList?.map((form, index) => (
         <div key={index}>
           <FormItem
