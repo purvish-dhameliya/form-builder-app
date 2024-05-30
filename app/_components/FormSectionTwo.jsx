@@ -1,10 +1,16 @@
 import React from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const FormSectionTwo = () => {
   return (
-    <section className="bg-white py-16">
-      <div className="mx-auto max-w-screen-xl px-4 text-center">
+    <motion.section
+      className="py-16 bg-white"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="max-w-screen-xl px-4 mx-auto text-center">
         <h2 className="text-2xl font-bold sm:text-4xl">
           Create AI Forms with Simple Prompts
         </h2>
@@ -13,7 +19,7 @@ const FormSectionTwo = () => {
           Simply provide a prompt describing the form you need, and our AI will
           handle the rest.
         </p>
-        <div className="mt-8 flex justify-center">
+        <div className="flex justify-center mt-8">
           <Image
             src="/hero.jpg"
             alt="AI Form Creation"
@@ -23,7 +29,7 @@ const FormSectionTwo = () => {
           />
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

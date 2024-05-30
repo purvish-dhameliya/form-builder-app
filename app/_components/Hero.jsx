@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,8 @@ const Feature = dynamic(() => import("./Feature"));
 const Discover = dynamic(() => import("./Discover"));
 const FormSectionTwo = dynamic(() => import("./FormSectionTwo"));
 const CallToAction = dynamic(() => import("./CallToAction"));
+
+const Loading = () => <div>Loading...</div>;
 
 const Hero = () => {
   return (
@@ -18,7 +20,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mx-auto max-w-xl text-center"
+            className="max-w-xl mx-auto text-center"
           >
             <h1 className="text-3xl font-extrabold sm:text-5xl">
               Create Your Form
@@ -29,20 +31,20 @@ const Hero = () => {
             </h1>
 
             <p className="mt-4 sm:text-xl/relaxed">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt
-              illo tenetur fuga ducimus numquam ea!
+              Easily create customized forms using the power of Gemini AI.
+              Generate, preview, and share your forms seamlessly.
             </p>
 
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-4 mt-8">
               <Link
-                className="block w-full rounded bg-red-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
+                className="block w-full px-12 py-3 text-sm font-medium text-white bg-red-600 rounded shadow hover:bg-red-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
                 href="/dashboard"
               >
                 + Create AI Form
               </Link>
 
               <Button
-                className="rounded px-12 py-3 text-sm font-medium text-destructive"
+                className="px-12 py-3 text-sm font-medium rounded text-destructive"
                 variant="outline"
               >
                 Explore
@@ -52,34 +54,18 @@ const Hero = () => {
         </div>
       </section>
 
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
+      <Suspense fallback={<Loading />}>
         <FormSectionTwo />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
+      </Suspense>
+      <Suspense fallback={<Loading />}>
         <Discover />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-      >
+      </Suspense>
+      <Suspense fallback={<Loading />}>
         <Feature />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.8 }}
-      >
+      </Suspense>
+      <Suspense fallback={<Loading />}>
         <CallToAction />
-      </motion.div>
+      </Suspense>
     </div>
   );
 };

@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     !path.includes("aiForm") && (
-      <div className="p-3 border-b shadow-sm">
+      <div className="p-3 border-b shadow-sm" data-mode="dark">
         <div className="flex items-center justify-between">
           <Link href={"/"}>
             <Image src={"/logo3.png"} alt="logo" width={"200"} height={150} />
@@ -30,7 +30,7 @@ const Header = () => {
               <UserButton />
             </div>
           ) : (
-            <SignInButton mode="modal" >
+            <SignInButton mode="modal">
               <Button className="bg-primary">Get started</Button>
             </SignInButton>
           )}
