@@ -1,5 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
+import moment from "moment"; // Example icons
+import { Facebook } from "lucide-react";
 
 const CallToAction = () => {
   return (
@@ -10,31 +12,17 @@ const CallToAction = () => {
       transition={{ duration: 0.5, delay: 0.6 }}
     >
       <div className="max-w-screen-xl px-4 mx-auto text-center">
-        <h2 className="text-2xl font-bold sm:text-4xl">Stay Connected</h2>
+        <h4 className="text-2xl font-bold sm:text-4xl">Stay Connected</h4>
         <p className="mt-4 sm:text-lg">
           Connect with us to stay updated on the latest features, news, and
           updates about our AI form builder application.
         </p>
-        <div className="flex flex-wrap justify-center gap-4 mt-8">
-          <a
-            href="/contact"
-            className="block px-8 py-3 text-sm font-medium bg-white rounded shadow text-primary hover:bg-gray-200 focus:outline-none focus:ring"
-          >
-            Contact Us
-          </a>
-          <a
-            href="/faq"
-            className="block px-8 py-3 text-sm font-medium bg-white rounded shadow text-primary hover:bg-gray-200 focus:outline-none focus:ring"
-          >
-            FAQ
-          </a>
-          <a
-            href="/terms"
-            className="block px-8 py-3 text-sm font-medium bg-white rounded shadow text-primary hover:bg-gray-200 focus:outline-none focus:ring"
-          >
-            Terms of Service
-          </a>
+
+        <div className="mt-8 text-sm text-gray-400">
+          &copy; {moment().format("YYYY")} Purvish Dhameliya. All rights
+          reserved.
         </div>
+        <p className="mt-2">Contact: purvishdhameliya37@gmail.com</p>
       </div>
     </motion.footer>
   );
