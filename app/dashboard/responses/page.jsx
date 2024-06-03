@@ -47,7 +47,7 @@ const Responses = () => {
       <h2 className="flex items-center justify-between text-3xl font-bold">
         Responses
       </h2>
-      <div className="grid grid-cols-2 gap-5 md:grid-cols-3">
+      <div className="grid grid-cols-1 lg:grid-cols-3  gap-5">
         {formList?.map((form, index) => (
           <FormListResponse
             key={index}

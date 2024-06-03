@@ -109,11 +109,11 @@ const Controller = ({
         <div className="space-y-2">
           {/* Style Controller */}
           <Label className="text-lg font-semibold">Style</Label>
-          <div className="grid w-full h-full grid-cols-3 gap-3">
+          <div className="grid w-full h-full grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-3">
             {Style.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center object-cover rounded-lg cursor-pointer hover:border-2"
+                className="flex items-center justify-around rounded-lg cursor-pointer hover:shadow-lg my-2 p-2"
                 onClick={() => selectedStyle(item)}
               >
                 <Image

@@ -130,7 +130,7 @@ const EditForm = ({ params }) => {
           <ArrowLeft /> Back
         </h2>
 
-        <div className="flex gap-2">
+        <div className="flex gap-1 items-center justify-center">
           <Link href={"/aiForm/" + record?.id} target="_blank">
             <Button className="flex gap-2">
               <SquareArrowOutUpRight className="h-5 w-5" />
@@ -155,8 +155,8 @@ const EditForm = ({ params }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="p-5 border rounded-lg shadow-md">
+      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="p-8 border rounded-lg shadow-md ">
           <Controller
             selectedTheme={(value) => {
               updateControllerFields(value, "theme");

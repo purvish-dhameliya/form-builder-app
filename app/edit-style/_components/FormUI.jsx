@@ -86,7 +86,7 @@ const FormUI = ({
     <motion.form
       ref={formRef}
       onSubmit={handleFormSubmit}
-      className="border p-5 rounded-sm md:w-[600px]"
+      className="border p-7 rounded-md md:w-[900px]"
       data-theme={selectedTheme}
       style={formStyle}
       initial={{ opacity: 0 }}

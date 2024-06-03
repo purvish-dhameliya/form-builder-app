@@ -1,32 +1,18 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { LoaderCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader
-} from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { AiChatSession } from "@/config/gemini-api";
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/config";
 import { JsonForms } from "@/config/schema";
 import MenuList from "/app/_data/MenuList";
 
-const Sidebar = () => {
+const Sidebar = ({ onClose, className }) => {
   const path = usePathname();
   const { user } = useUser();
   const [formList, setFormList] = useState([]);
   const [percentageFileCreated, setPercentageFileCreated] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [userInput, setUserInput] = useState("");
-  const [openDialog, setOpenDialog] = useState(false);
 
   const getFormList = async () => {
     const result = await db
@@ -40,35 +26,6 @@ const Sidebar = () => {
     setPercentageFileCreated(percentage);
   };
 
-  const onCreateForm = async () => {
-    setLoading(true);
-    try {
-      const result = await AiChatSession.sendMessage(
-        "Description: " + userInput + PROMPT
-      );
-      const jsonResponse = result.response.text();
-
-      if (jsonResponse) {
-        const resp = await db
-          .insert(JsonForms)
-          .values({
-            jsonform: jsonResponse,
-            createdBy: user?.primaryEmailAddress?.emailAddress,
-            createdAt: moment().format("DD/MM/yyyy")
-          })
-          .returning({ id: JsonForms.id });
-
-        if (resp[0].id) {
-          router.push("/edit-style/" + resp[0].id);
-        }
-      }
-    } catch (error) {
-      console.error("Error creating form:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     user && getFormList();
   }, [user]);
@@ -78,7 +35,7 @@ const Sidebar = () => {
   }, [path]);
 
   return (
-    <div className="h-screen border shadow-md">
+    <div className={`md:block sm:h-screen border shadow-md ${className}`}>
       <div className="p-5">
         {MenuList?.map((menu, index) => (
           <Link
@@ -93,7 +50,7 @@ const Sidebar = () => {
         ))}
       </div>
 
-      <div className="fixed w-64 p-6 bottom-20">
+      <div className="fixed w-64 p-6 bottom-20 hidden md:block">
         <div className="items-center my-10 ">
           <Progress value={percentageFileCreated} />
           <h2 className="mt-2 text-sm text-gray-500">
